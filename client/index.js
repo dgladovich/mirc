@@ -4,5 +4,5 @@ import './assets/index.css';
 import registerServiceWorker from './utils/registerServiceWorker';
 import Router from './router';
 
-ReactDOM.render(<Router />, document.getElementById('root'));
+ReactDOM.render(<Router/>, document.getElementById('root'));
 registerServiceWorker();

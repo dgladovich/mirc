@@ -4,7 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 
 import createHistory from "history/createBrowserHistory";
-import { Route } from "react-router";
+import { Route, Router } from "react-router";
 
 import {
     ConnectedRouter,
@@ -36,12 +36,12 @@ class Root extends Component {
     render() {
         return (
             <Provider store={store}>
-                <ConnectedRouter history={history}>
+                <Router history={history}>
                     <App>
                         <Route path="/users" component={Users}/>
                         <Route path="/chats" component={ChatList}/>
                     </App>
-                </ConnectedRouter>
+                </Router>
             </Provider>
         );
     }

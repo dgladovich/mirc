@@ -11,10 +11,12 @@ let appEntry = [
 module.exports = {
     entry: appEntry,
     output: {
-        path: path.join(__dirname, 'build')
+        path: path.join(__dirname, 'build'),
+        publicPath: "/"
     },
     devServer: {
         contentBase: path.join(__dirname, 'build'),
+        historyApiFallback: true,
         compress: true,
         port: 9000
     },
