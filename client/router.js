@@ -17,9 +17,10 @@ import {
 import App from './components/App/App';
 import Users from './components/Users/UsersList'
 import ChatList from './components/Chats/ChatList'
-
+import * as io from 'socket.io-client';
 
 const history = createHistory();
+const socket = io.connect('http://localhost:6000', {path: '/', forceNew: true});
 
 // Build the middleware for intercepting and dispatching navigation actions
 const middleware = routerMiddleware(history);
@@ -32,8 +33,15 @@ const store = createStore(
     }),
     applyMiddleware(middleware)
 );
+
+
+function subscribeToTimer(cb) {
+    socket.on('timer', timestamp => cb(null, timestamp));
+    socket.emit('subscribeToTimer', 1000);
+}
 class Root extends Component {
     render() {
+        subscribeToTimer();
         return (
             <Provider store={store}>
                 <Router history={history}>
