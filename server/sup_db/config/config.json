@@ -1,10 +1,11 @@
 {
   "development": {
-    "username": "dev_chat",
-    "password": "lovesaveworld",
-    "database": "dev_chat",
-    "host": "db4free.net",
-    "dialect": "mysql"
+    "username": "devuser2",
+    "password": "Den100700372",
+    "database": "dgladovich_1",
+    "host": "mysql.zzz.com.ua",
+    "dialect": "mysql",
+    "operatorsAliases": false
   },
   "test": {
     "username": "root",

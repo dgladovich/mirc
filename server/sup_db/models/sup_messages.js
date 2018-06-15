@@ -1,11 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var sup_messages = sequelize.define('sup_messages', {
-    ctrl: DataTypes.INT,
-    usr: DataTypes.INT,
+  var sup_messages = sequelize.define('Message' , {
+    ctrl: DataTypes.INTEGER,
+    usr: DataTypes.INTEGER,
     text: DataTypes.STRING
   }, {
-      tableName: 'Message'
+      tableName: 'sup_messages'
 
   });
   sup_messages.associate = function(models) {

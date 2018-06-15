@@ -1,11 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var sup_controller = sequelize.define('sup_controller', {
+  var sup_controller = sequelize.define('Controller', {
     lid: DataTypes.INTEGER,
     name: DataTypes.STRING
   }, {
-      tableName: 'Controller'
-
+      tableName: 'sup_controller'
   });
   sup_controller.associate = function(models) {
     // associations can be defined here

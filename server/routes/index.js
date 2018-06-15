@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const users = require('./users');
+const controllers = require('./controllers');
 
 /* GET home page. */
-router.use('/', function (req, res, next) {
+router.get('/', function (req, res, next) {
     res.send('Support chart works fine')
 });
+router.use('/controllers', controllers)
 
 module.exports = router;
