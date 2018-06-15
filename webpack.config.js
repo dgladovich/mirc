@@ -18,7 +18,14 @@ module.exports = {
         contentBase: path.join(__dirname, 'build'),
         historyApiFallback: true,
         compress: true,
-        port: 9000
+        port: 9000,
+        proxy: [{
+            context: [
+                "/controllers",
+                "/messages",
+            ],
+            target: "http://localhost:5000",
+        }]
     },
     target: 'web',
     mode: 'development',

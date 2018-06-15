@@ -4,7 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
 import createHistory from "history/createBrowserHistory";
-import { Route, Router, IndexRoute } from "react-router";
+import { Route, Router, IndexRoute, Switch } from "react-router";
 
 import {
     ConnectedRouter,
@@ -18,6 +18,7 @@ import App from './components/App/App';
 import Users from './components/Users/UsersList'
 import rootReducers from './reducers';
 import ControllersList from './components/Controllers/ControllersList';
+import ConversationField from './components/Conversations/ConversationField';
 
 const history = createHistory();
 const middleware = routerMiddleware(history);
@@ -36,13 +37,12 @@ const store = createStore(
 
 class Root extends Component {
     render() {
-        subscribeToTimer();
         return (
             <Provider store={store}>
                 <Router history={history}>
                     <App>
-                        <IndexRoute component={ControllersList}/>
-                        <Route path="/:controllerId" component={Users}/>
+                        <Route exact path='/' component={ControllersList}/>
+                        <Route path="/:controllerId" component={ConversationField}/>
                     </App>
                 </Router>
             </Provider>

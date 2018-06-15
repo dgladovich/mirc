@@ -11,7 +11,9 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "cookie-parser": "~1.4.3",
+    "cross-fetch": "^2.2.1",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "history": "^4.7.2",
@@ -22,6 +24,7 @@
     "passport": "^0.4.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-mdl": "^1.11.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
