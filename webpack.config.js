@@ -57,6 +57,14 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|.cache)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['react', 'es2015', 'stage-2']
+                }
             }
         ]
     },
