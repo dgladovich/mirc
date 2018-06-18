@@ -11,16 +11,20 @@
     "eject": "react-scripts eject"
   },
   "nodemonConfig": {
-    "ignore": ["./client/*"]
+    "ignore": [
+      "./client/*"
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",
     "babel": "^6.23.0",
+    "connect-history-api-fallback": "^1.5.0",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "cross-fetch": "^2.2.1",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "express-history-api-fallback": "^2.2.1",
     "history": "^4.7.2",
     "http-errors": "~1.6.2",
     "jsonwebtoken": "^8.3.0",

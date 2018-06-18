@@ -1,4 +1,3 @@
-import fetch from 'cross-fetch';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -21,7 +20,7 @@ function recieveControllers(controllers){
 export function fetchControllers() {
     return dispatch => {
         dispatch(requestControllers())
-        return axios.get(`http://192.168.15.21:5000/controllers`)
+        return axios.get(`http://localhost:5000/controllers`)
             .then(ctrls => dispatch(recieveControllers(ctrls.data)))
     }
 }

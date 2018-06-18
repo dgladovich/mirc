@@ -9,8 +9,10 @@ const config = require('../webpack.config');
 const router = require('./routes/index');
 const app = express();
 const compiler = webpack(config);
+const history = require('connect-history-api-fallback');
 
-app.use(require('webpack-dev-middleware')(compiler, { publicPath: config.output.publicPath }));
+app.use(history());
+app.use(require('webpack-dev-middleware')(compiler, { publicPath: config.output.publicPath, historyApiFallback: true }));
 app.use(require('webpack-hot-middleware')(compiler));
 app.use(logger('dev'));
 app.use(express.json());
