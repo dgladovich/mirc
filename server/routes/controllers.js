@@ -1,19 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const supdb = require('../sup_db/models');
-const {Controller} = supdb;
-/* GET users listing. */
+const {Controller} = require('../smart_db/models');
 
-router.get('/', function (req, res, next) {
-    Controller
-        .findAll()
-        .then((controllers) => {
-            res.json(controllers);
-        })
-        .catch((e)=>{
-            console.error(e)
-            res.send(e);
-        })
+console.log(Controller)
+
+const controllers = [{id: 1, name: 'filter'}, {id: 2, name: 'noria'}, {id:3, name: 'chain'}]
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+    res.json(controllers)
 });
 
 module.exports = router;

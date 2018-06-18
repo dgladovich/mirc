@@ -1,39 +1,20 @@
 import React, {Component} from 'react';
-import ReactDOM from "react-dom";
-import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import thunk from 'redux-thunk';
 import createHistory from "history/createBrowserHistory";
 import { Route, Router, IndexRoute, Switch } from "react-router";
 
-import {
-    ConnectedRouter,
-    routerReducer,
-    routerMiddleware,
-    push
-} from "react-router-redux";
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from "react-router-redux";
 
-
+import configureStore from './configureStore';
 import App from './components/App/App';
-import Users from './components/Users/UsersList'
-import rootReducers from './reducers';
 import ControllersList from './components/Controllers/ControllersList';
 import ConversationField from './components/Conversations/ConversationField';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://192.168.15.21:3000');
 
 const history = createHistory();
-const middleware = routerMiddleware(history);
-
-// Add the reducer to your store on the `router` key
-// Also apply our middleware for navigating
-const store = createStore(
-    combineReducers({
-        ...rootReducers,
-        router: routerReducer
-    }),
-    applyMiddleware(middleware),
-    applyMiddleware(thunk)
-);
-
+const store = configureStore();
 
 class Root extends Component {
     render() {

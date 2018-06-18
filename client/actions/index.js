@@ -1,7 +1,4 @@
-
-
 const URL = 'http://localhost:5000/controllers';
-
 export const fetchControllers = ()=> (dispatch, getState) => {
     return fetch(URL)
         .then((data)=>{
@@ -9,6 +6,10 @@ export const fetchControllers = ()=> (dispatch, getState) => {
         })
         .catch((e)=>{
             console.log(e)
-        })
+        });
 
+};
+
+export const toggleTodo = () => (dispatch, getState) => {
+  console.log('Toggling todo')
 };

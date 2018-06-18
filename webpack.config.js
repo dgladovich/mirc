@@ -2,10 +2,11 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
 const path = require('path');
 let appEntry = [
-    path.join(__dirname, 'client/index.js'),
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:9000',
-    'webpack/hot/only-dev-server'
+    'webpack/hot/dev-server',
+    'webpack-hot-middleware/client',
+    path.join(__dirname, 'client/index.js'),
+
 ];
 
 module.exports = {
@@ -17,15 +18,6 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'build'),
         historyApiFallback: true,
-        compress: true,
-        port: 9000,
-        proxy: [{
-            context: [
-                "/controllers",
-                "/messages",
-            ],
-            target: "http://localhost:5000",
-        }]
     },
     target: 'web',
     mode: 'development',
