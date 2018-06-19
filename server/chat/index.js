@@ -13,13 +13,18 @@ module.exports = function ChatServer (app){
 
     io.on('connection', (client) => {
         const host = client.handshake.headers.referer;
-        console.log(`Client connected: ${host}`)
+        console.log(`Client connected: ${host}`);
+
+
         Message.findAll({limit: 20}).then((messages)=>{
-            console.log('find messages lists')
-            console.log(messages)
-        })
+            let msgs = messages.map(message => message.toJSON());
+            client.emit('messages:list', msgs);
+        });
+
+
         client.on('disconnect', ()=>{
             console.log('Clent disconnect')
         })
+
     });
 }
