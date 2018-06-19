@@ -11,10 +11,9 @@ import ControllersList from './components/Controllers/ControllersList';
 import ConversationField from './components/Conversations/ConversationField';
 import setupSocket from './sockets';
 
-const socket = setupSocket();
-
 const history = createHistory();
 const store = configureStore();
+const socket = setupSocket();
 
 class Root extends Component {
     render() {

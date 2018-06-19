@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     lid: DataTypes.INTEGER,
     name: DataTypes.STRING
   }, {
-      tableName: 'sup_controller'
+      tableName: 'controllers'
   });
   sup_controller.associate = function(models) {
     // associations can be defined here

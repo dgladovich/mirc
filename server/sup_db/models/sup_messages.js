@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     usr: DataTypes.INTEGER,
     text: DataTypes.STRING
   }, {
-      tableName: 'sup_messages'
+      tableName: 'messages'
 
   });
   sup_messages.associate = function(models) {

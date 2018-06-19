@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "devuser2",
-    "password": "Den100700372",
-    "database": "dgladovich_1",
-    "host": "mysql.zzz.com.ua",
+    "username": "root",
+    "password": "fuckthemall",
+    "database": "support_service_test",
+    "host": "192.168.15.22",
     "dialect": "mysql",
     "operatorsAliases": false
   },

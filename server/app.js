@@ -1,7 +1,7 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const http = require('http');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const webpack = require('webpack');
@@ -10,6 +10,8 @@ const router = require('./routes/index');
 const app = express();
 const compiler = webpack(config);
 const history = require('connect-history-api-fallback');
+const ChatServer = require('./chat')(app);
+
 
 app.use(history());
 app.use(require('webpack-dev-middleware')(compiler, { publicPath: config.output.publicPath, historyApiFallback: true }));
@@ -38,18 +40,4 @@ app.use(function (err, req, res, next) {
 });
 
 
-const socketServer =require('socket.io')
-const serve = http.createServer(app);
-const io = socketServer(serve);
-serve.listen(3000,()=> {console.log("+++Gethyl Express Server with Socket Running!!!")})
-
-io.on('connection', (client) => {
-    console.log('Client connected')
-    client.on('subscribeToTimer', (interval) => {
-        console.log('client is subscribing to timer with interval ', interval);
-        setInterval(() => {
-            client.emit('timer', new Date());
-        }, interval);
-    });
-});
 module.exports = app;

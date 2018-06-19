@@ -8,6 +8,7 @@ const setupSocket = (dispatch, username) => {
     chat.on('connect', ()=>{
 
     });
+    chat.emit('message:send', {})
 
 
 /*    socket.onopen = () => {
