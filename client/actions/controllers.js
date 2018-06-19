@@ -1,18 +1,15 @@
 import axios from 'axios';
 import _ from 'lodash';
-
-export const REQUEST_CONTROLLERS = 'REQUEST_CONTOLLERS';
-export const RECIEVE_CONTROLLERS = 'RECIEVE_CONTROLLERS';
-export const ERROR_CONTROLLERS = 'ERROR_CONTROLLERS';
+import * as types from '../constants/ActionTypes';
 
 function requestControllers(){
     return {
-        type: REQUEST_CONTROLLERS
+        type: types.REQUEST_CONTROLLERS
     }
 }
 function recieveControllers(controllers){
     return {
-        type: RECIEVE_CONTROLLERS,
+        type: types.RECIEVE_CONTROLLERS,
         controllers: _.toArray(controllers)
     }
 }
@@ -20,7 +17,7 @@ function recieveControllers(controllers){
 export function fetchControllers() {
     return dispatch => {
         dispatch(requestControllers())
-        return axios.get(`http://localhost:5000/controllers`)
+        return axios.get(`http://localhost:3000/controllers`)
             .then(ctrls => dispatch(recieveControllers(ctrls.data)))
     }
 }

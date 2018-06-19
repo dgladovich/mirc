@@ -1,19 +1,7 @@
 import React, {Component} from 'react';
 import {List, ListItem, Grid} from 'react-mdl';
 
-class App extends Component {
-
-    componentDidMount() {
-        const { dispatch, selectedSubreddit } = this.props;
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) {
-            const { dispatch, selectedSubreddit } = nextProps
-            dispatch(fetchPostsIfNeeded(selectedSubreddit))
-        }
-    }
-
+class MessagesList extends Component {
 
     render() {
         return (
@@ -67,4 +55,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default MessagesList;

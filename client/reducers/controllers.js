@@ -1,18 +1,14 @@
-import { REQUEST_CONTROLLERS,  RECIEVE_CONTROLLERS } from '../actions/controllers'
+import {REQUEST_CONTROLLERS, RECIEVE_CONTROLLERS} from "../actions/controllers";
 
 
-function controllers(state = {controllers: []}, action){
-    console.log(state , action)
+function controllers(state = {items: []}, action){
     switch (action.type) {
         case REQUEST_CONTROLLERS:
-            console.log('calling some shit')
-            return state;
+            return Object.assign({}, state);
         case RECIEVE_CONTROLLERS:
-            return state;
-;
+            return Object.assign({}, state, action);
         default:
             return state
     }
-};
-
+}
 export default controllers;

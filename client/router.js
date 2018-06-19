@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
-import { Provider } from "react-redux";
+import {Provider} from "react-redux";
 import createHistory from "history/createBrowserHistory";
-import { Route, Router, IndexRoute, Switch } from "react-router";
+import {Route, Router, IndexRoute, Switch} from "react-router";
 
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from "react-router-redux";
+import {ConnectedRouter, routerReducer, routerMiddleware, push} from "react-router-redux";
 
 import configureStore from './configureStore';
 import App from './components/App/App';
-import ControllersList from './components/Controllers/ControllersList';
-import ConversationField from './components/Conversations/ConversationField';
+import ControllersContainer from './containers/ControllersContainer';
+import ConversationContainer from './containers/ConversationContainer';
 import setupSocket from './sockets';
 
 const history = createHistory();
 const store = configureStore();
-const socket = setupSocket();
+const socket = setupSocket(store.dispatch);
+
 
 class Root extends Component {
     render() {
@@ -21,8 +22,8 @@ class Root extends Component {
             <Provider store={store}>
                 <Router history={history}>
                     <App>
-                        <Route exact path='/' component={ControllersList}/>
-                        <Route path="/:controllerId" component={ConversationField}/>
+                        <Route exact path='/' component={ControllersContainer}/>
+                        <Route path="/:controllerId" component={ConversationContainer}/>
                     </App>
                 </Router>
             </Provider>

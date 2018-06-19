@@ -1,14 +1,19 @@
 import * as types from '../constants/ActionTypes';
-import { messageReceived, populateUsersList } from '../actions';
+import { messagesReceived, populateUsersList } from '../actions';
 import io from 'socket.io-client';
 
-const setupSocket = (dispatch, username) => {
+const setupSocket = (dispatch) => {
     const chat = io.connect('localhost:3000');
 
     chat.on('connect', ()=>{
-
+        chat.emit('request:messages');
     });
-    chat.emit('message:send', {})
+    chat.on('messages:list', (messages)=>{
+        dispatch(messagesReceived(messages));
+    });
+/*    chat.emit('messages:list', (messages)=>{
+       console.log(messages)
+    });*/
 
 
 /*    socket.onopen = () => {
