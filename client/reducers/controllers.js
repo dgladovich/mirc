@@ -1,4 +1,4 @@
-import {REQUEST_CONTROLLERS, RECIEVE_CONTROLLERS} from "../actions/controllers";
+import {REQUEST_CONTROLLERS, RECIEVE_CONTROLLERS} from "../constants/ActionTypes";
 
 
 function controllers(state = {items: []}, action){
@@ -6,7 +6,7 @@ function controllers(state = {items: []}, action){
         case REQUEST_CONTROLLERS:
             return Object.assign({}, state);
         case RECIEVE_CONTROLLERS:
-            return Object.assign({}, state, action);
+            return Object.assign({}, state, { items: action.controllers});
         default:
             return state
     }

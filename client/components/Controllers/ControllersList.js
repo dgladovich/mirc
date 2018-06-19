@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {List, Cell, ListItem, Grid} from 'react-mdl';
 import Controller from './Controller';
-class Controllers extends Component {
+
+class ControllersList extends Component {
     render() {
         return (
             <div>
@@ -9,16 +10,17 @@ class Controllers extends Component {
                 <Grid>
                     <Cell align={'middle'}></Cell>
                     <List>
-{/*                        {
-                            this.props.controllers.controllers.map((ctrl) => {
+                        {
+                            this.props.controllers.map((ctrl) => {
                                 return (
                                     <Controller
+                                        key={ctrl.id}
                                         controllerId={ctrl.id}
                                         controllerName={ctrl.name}
                                     />
                                 )
                             })
-                        }*/}
+                        }
                     </List>
                 </Grid>
             </div>
@@ -26,4 +28,4 @@ class Controllers extends Component {
     }
 }
 
-export default Controllers;
+export default ControllersList;

@@ -3,8 +3,6 @@ import {Provider} from "react-redux";
 import createHistory from "history/createBrowserHistory";
 import {Route, Router, IndexRoute, Switch} from "react-router";
 
-import {ConnectedRouter, routerReducer, routerMiddleware, push} from "react-router-redux";
-
 import configureStore from './configureStore';
 import App from './components/App/App';
 import ControllersContainer from './containers/ControllersContainer';

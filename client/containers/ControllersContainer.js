@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {fetchControllers} from "../actions/controllers";
-import Controllers from '../components/Controllers/Controllers';
+import ControllersList from '../components/Controllers/ControllersList';
 
 class ControllersContainer extends Component {
-/*    componentDidMount() {
+    componentDidMount() {
         const {dispatch} = this.props;
         dispatch(fetchControllers());
-    }*/
+    }
 
     render() {
-
         return (
             <div>
-                <Controllers/>
+                <ControllersList controllers={this.props.controllers.items}/>
             </div>
         );
     }
