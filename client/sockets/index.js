@@ -1,10 +1,16 @@
-import * as types from '../constants/ActionTypes'
-import { messageReceived, populateUsersList } from '../actions'
+import * as types from '../constants/ActionTypes';
+import { messageReceived, populateUsersList } from '../actions';
+import io from 'socket.io-client';
 
 const setupSocket = (dispatch, username) => {
-    const socket = new WebSocket('ws://localhost:8989')
+    const chat = io.connect('localhost:3000');
 
-    socket.onopen = () => {
+    chat.on('connect', ()=>{
+
+    });
+
+
+/*    socket.onopen = () => {
         socket.send(JSON.stringify({
             type: types.ADD_USER,
             name: username
@@ -22,9 +28,9 @@ const setupSocket = (dispatch, username) => {
             default:
                 break
         }
-    }
+    }*/
 
-    return socket
+    return chat;
 }
 
 export default setupSocket

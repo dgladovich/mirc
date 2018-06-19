@@ -9,9 +9,9 @@ import configureStore from './configureStore';
 import App from './components/App/App';
 import ControllersList from './components/Controllers/ControllersList';
 import ConversationField from './components/Conversations/ConversationField';
-import io from 'socket.io-client';
+import setupSocket from './sockets';
 
-const socket = io.connect('http://192.168.15.21:3000');
+const socket = setupSocket();
 
 const history = createHistory();
 const store = configureStore();
