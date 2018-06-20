@@ -11,6 +11,20 @@ function requestMessages(controllerId){
         controllerId: controllerId
     }
 }
+function requestMessagesById(controllerId){
+    return {
+        type: REQUEST_MESSAGES,
+        controllerId: controllerId
+    }
+}
+function recieveMessagesById(controllerId){
+    return {
+        type: RECIEVE_MESSAGES,
+        messages: _.toArray(controllers),
+        controllerId: controllerId
+
+    }
+}
 function recieveMessages(controllerId){
     return {
         type: RECIEVE_MESSAGES,
