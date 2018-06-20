@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "touchpad",
+    "password": "fuckthemall",
     "database": "smart3",
     "host": "192.168.15.22",
     "dialect": "mysql"

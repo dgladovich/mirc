@@ -1,10 +1,13 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Controller = sequelize.define('Controller', {
-    name: DataTypes.STRING
-  }, {});
-  Controller.associate = function(models) {
-    // associations can be defined here
-  };
-  return Controller;
+    const Controller = sequelize.define('Controller', {
+        name: DataTypes.STRING,
+    }, {
+        tableName: 'smart_ctrls',
+        timestamps: false
+    });
+    Controller.associate = function (models) {
+        // associations can be defined here
+    };
+    return Controller;
 };
