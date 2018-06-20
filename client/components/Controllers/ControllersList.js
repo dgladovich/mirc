@@ -6,7 +6,7 @@ class ControllersList extends Component {
     render() {
         return (
             <div>
-                <h1>Controllers list</h1>
+                <h3>Controllers list</h3>
                 <Grid>
                     <Cell align={'middle'}></Cell>
                     <List>

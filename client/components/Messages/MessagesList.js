@@ -1,24 +1,46 @@
 import React, {Component} from 'react';
-import {List, ListItem, Grid, Cell} from 'react-mdl';
+import ReactDom from 'react-dom';
+import {Grid, Cell} from 'react-mdl';
 import OwnMessage from './OwnMessage';
 import ForeignMessage from './ForeignMessage';
+
+import List from '@material-ui/core/List';
 
 
 const USER_ID = 1;
 
 class MessagesList extends Component {
+    constructor(props) {
+        super(props);
+        this.listRef = React.createRef();
+    }
+    componentDidMount(){
+    }
+    componentDidUpdate(){
+        let elem = ReactDom.findDOMNode(this.listRef.current);
+        let pixelsToScroll = elem.scrollHeight;
+
+        elem.scrollTop = pixelsToScroll;
+
+        //console.log('Component did update', this)
+    }
     render() {
         return (
             <div>
-                <h2>Conversation field</h2>
+                <h3>Online support</h3>
                 <Grid>
 
-                    <Cell style={{
-                        margin: 'auto',
-                        height: '50vh',
-                        overflowY: 'scroll',
-                        border: '1px solid #e1e1e1'
-                    }} align='middle' cell={4}>
+                    <Cell
+                        ref={this.listRef}
+                        style={{
+                            margin: 'auto',
+                            height: '70vh',
+                            overflowY: 'scroll',
+                            border: '1px solid #e1e1e1',
+                            width: 600,
+                        }}
+                        align='middle'
+                    >
 
                         <List>
                             {this.props.messages.map((message) => message.usr === USER_ID ? (
@@ -29,8 +51,7 @@ class MessagesList extends Component {
                     </Cell>
                 </Grid>
             </div>
-        )
-            ;
+        );
     }
 }
 
