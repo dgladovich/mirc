@@ -14,15 +14,17 @@ class MessagesList extends Component {
         super(props);
         this.listRef = React.createRef();
     }
-    componentDidMount(){
-    }
-    componentDidUpdate(){
+    scrollToBottom(){
         let elem = ReactDom.findDOMNode(this.listRef.current);
         let pixelsToScroll = elem.scrollHeight;
 
         elem.scrollTop = pixelsToScroll;
-
-        //console.log('Component did update', this)
+    }
+    componentDidMount(){
+        this.scrollToBottom()
+    }
+    componentDidUpdate(){
+        this.scrollToBottom()
     }
     render() {
         return (
