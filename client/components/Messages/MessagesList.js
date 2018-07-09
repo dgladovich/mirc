@@ -45,9 +45,11 @@ class MessagesList extends Component {
                     >
 
                         <List>
-                            {this.props.messages.map((message) => message.usr === USER_ID ? (
+                            {
+                                /*this.props.messages.map((message) => message.usr === USER_ID ? (
                                 <OwnMessage key={message.id} text={message.text} userId={message.usr}/>) : (
-                                <ForeignMessage key={message.id} text={message.text} userId={message.usr}/>))}
+                                <ForeignMessage key={message.id} text={message.text} userId={message.usr}/>))*/
+                            }
                         </List>
 
                     </Cell>

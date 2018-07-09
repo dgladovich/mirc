@@ -4,15 +4,16 @@ import {fetchControllers} from "../actions/controllers";
 import ControllersList from '../components/Controllers/ControllersList';
 
 class ControllersContainer extends Component {
-    componentDidMount() {
+/*    componentDidMount() {
         const {dispatch} = this.props;
         dispatch(fetchControllers());
-    }
+    }*/
 
     render() {
+        console.log(this.props, this.state)
         return (
             <div>
-                <ControllersList controllers={this.props.controllers.items}/>
+                {/*<ControllersList controllers={this.props.controllers.items}/>*/}
             </div>
         );
     }

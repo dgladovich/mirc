@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   var sup_messages = sequelize.define('Message' , {
     ctrl: DataTypes.INTEGER,
     usr: DataTypes.INTEGER,
-    text: DataTypes.STRING
+    text: DataTypes.STRING,
+    viewed: DataTypes.BOOLEAN
   }, {
       tableName: 'messages'
 

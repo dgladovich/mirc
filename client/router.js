@@ -7,12 +7,9 @@ import configureStore from './configureStore';
 import App from './components/App/App';
 import ControllersContainer from './containers/ControllersContainer';
 import ConversationContainer from './containers/ConversationContainer';
-import setupSocket from './sockets';
 
 const history = createHistory();
 const store = configureStore();
-const socket = setupSocket(store.dispatch);
-
 
 class Root extends Component {
     render() {
