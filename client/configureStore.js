@@ -1,24 +1,25 @@
-import thunk from "redux-thunk";
 import {applyMiddleware, createStore, combineReducers} from "redux";
-import controllers from "./reducers/controllers";
-import messagesReducer from './reducers/messages';
 import {routerReducer} from "react-router-redux";
-
-import { createLogger } from 'redux-logger';
+import {createLogger} from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import saga from './sagas';
 import reducer from './reducers/index'
+import SocketClient from './sockets';
+import socketMiddleware from './sockets/socketMiddleware';
 
+const socketClient = new SocketClient();
+socketClient.connect();
 
 export default function configureStore(initialState) {
-    const sagaMiddleware = createSagaMiddleware();
 
     const store = createStore(
-        reducer, initialState, applyMiddleware(
-        sagaMiddleware, createLogger()
+        reducer,
+        routerReducer,
+        initialState,
+        applyMiddleware(
+            createLogger(), socketMiddleware(socketClient)
         )
     );
-    sagaMiddleware.run(saga);
 
     return store;
 };

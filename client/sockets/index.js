@@ -1,26 +1,51 @@
-import * as types from '../constants/ActionTypes';
-import { messagesReceived, populateUsersList } from '../actions';
 import io from 'socket.io-client';
 
-const setupSocket = (dispatch) => {
-    const chat = io.connect('localhost:3000');
+// Example conf. You can move this to your config file.
+const host = 'http://localhost:3000';
 
-    chat.on('connect', ()=>{
+export default class socketAPI {
+    socket;
 
-    });
-    chat.on('messages:list', (messages)=>{
-        dispatch(messagesReceived(messages));
-    });
-    chat.on('message',()=>{
-        console.log('recieved message from server')
-    });
+    connect() {
+        this.socket = io.connect(host);
+        return new Promise((resolve, reject) => {
+            this.socket.on('connect', () => resolve());
+            this.socket.on('connect_error', (error) => reject(error));
+        });
+    }
 
-/*    chat.emit('messages:list', (messages)=>{
-       console.log(messages)
-    });*/
+    disconnect() {
+        return new Promise((resolve) => {
+            this.socket.disconnect(() => {
+                this.socket = null;
+                resolve();
+            });
+        });
+    }
 
+    emit(event, data) {
+        return new Promise((resolve, reject) => {
+            if (!this.socket) return reject('No socket connection.');
 
-    return chat;
-};
+            return this.socket.emit(event, data, (response) => {
+                // Response is the optional callback that you can use with socket.io in every request. See 1 above.
+                if (response.error) {
+                    console.error(response.error);
+                    return reject(response.error);
+                }
 
-export default setupSocket
+                return resolve();
+            });
+        });
+    }
+
+    on(event, fun) {
+        // No promise is needed here, but we're expecting one in the middleware.
+        return new Promise((resolve, reject) => {
+            if (!this.socket) return reject('No socket connection.');
+
+            this.socket.on(event, fun);
+            resolve();
+        });
+    }
+}

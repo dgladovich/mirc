@@ -1,70 +1,131 @@
-import io from 'socket.io-client';
-import { eventChannel } from 'redux-saga';
-import { fork, take, call, put, cancel } from 'redux-saga/effects';
-import {
-    login, logout, addUser, removeUser, newMessage, sendMessage, requestMessages
-} from '../actions/sagas';
+/* eslint-disable no-constant-condition */
+import { take, put, call, fork, select, all } from 'redux-saga/effects'
+import { api, history } from '../services'
+import * as actions from '../actions'
+import { getUser, getRepo, getStarredByUser, getStargazersByRepo } from '../reducers/selectors'
 
-function connect() {
-    const socket = io('http://localhost:3000');
-    return new Promise(resolve => {
-        socket.on('connect', () => {
-            resolve(socket);
-        });
-    });
+// each entity defines 3 creators { request, success, failure }
+const { user, repo, starred, stargazers } = actions
+
+// url for first page
+// urls for next pages will be extracted from the successive loadMore* requests
+const firstPageStarredUrl = login => `users/${login}/starred`
+const firstPageStargazersUrl = fullName => `repos/${fullName}/stargazers`
+
+
+/***************************** Subroutines ************************************/
+
+// resuable fetch Subroutine
+// entity :  user | repo | starred | stargazers
+// apiFn  : api.fetchUser | api.fetchRepo | ...
+// id     : login | fullName
+// url    : next page url. If not provided will use pass id to apiFn
+
+function* fetchEntity(entity, apiFn, id, url) {
+    yield put( entity.request(id) )
+    const {response, error} = yield call(apiFn, url || id)
+    if(response)
+        yield put( entity.success(id, response) )
+    else
+        yield put( entity.failure(id, error) )
 }
 
-function subscribe(socket) {
-    return eventChannel(emit => {
-        socket.on('users.login', ({ username }) => {
-            emit(addUser({ username }));
-        });
-        socket.on('users.logout', ({ username }) => {
-            emit(removeUser({ username }));
-        });
-        socket.on('messages.new', ({ message }) => {
-            emit(newMessage({ message }));
-        });
-        socket.on('disconnect', e => {
-        });
-        return () => {};
-    });
-}
+// yeah! we can also bind Generators
+export const fetchUser       = fetchEntity.bind(null, user, api.fetchUser)
+export const fetchRepo       = fetchEntity.bind(null, repo, api.fetchRepo)
+export const fetchStarred    = fetchEntity.bind(null, starred, api.fetchStarred)
+export const fetchStargazers = fetchEntity.bind(null, stargazers, api.fetchStargazers)
 
-function* read(socket) {
-    const channel = yield call(subscribe, socket);
-    while (true) {
-        let action = yield take(channel);
-        yield put(action);
+// load user unless it is cached
+function* loadUser(login, requiredFields) {
+    const user = yield select(getUser, login)
+    if (!user || requiredFields.some(key => !user.hasOwnProperty(key))) {
+        yield call(fetchUser, login)
     }
 }
 
-function* write(socket) {
-    while (true) {
-        const { payload } = yield take(`${sendMessage}`);
-        socket.emit('message', payload);
+// load repo unless it is cached
+function* loadRepo(fullName, requiredFields) {
+    const repo = yield select(getRepo, fullName)
+    if (!repo || requiredFields.some(key => !repo.hasOwnProperty(key)))
+        yield call(fetchRepo, fullName)
+}
+
+// load next page of repos starred by this user unless it is cached
+function* loadStarred(login, loadMore) {
+    const starredByUser = yield select(getStarredByUser, login)
+    if (!starredByUser || !starredByUser.pageCount || loadMore)
+        yield call(
+            fetchStarred,
+            login,
+            starredByUser.nextPageUrl || firstPageStarredUrl(login)
+        )
+}
+
+// load next page of users who starred this repo unless it is cached
+function* loadStargazers(fullName, loadMore) {
+    const stargazersByRepo = yield select(getStargazersByRepo, fullName)
+    if (!stargazersByRepo || !stargazersByRepo.pageCount || loadMore)
+        yield call(
+            fetchStargazers,
+            fullName,
+            stargazersByRepo.nextPageUrl || firstPageStargazersUrl(fullName)
+        )
+}
+
+/******************************************************************************/
+/******************************* WATCHERS *************************************/
+/******************************************************************************/
+
+// trigger router navigation via history
+function* watchNavigate() {
+    while(true) {
+        const {pathname} = yield take(actions.NAVIGATE)
+        yield history.push(pathname)
     }
 }
 
-function* handleIO(socket) {
-    yield fork(read, socket);
-    yield fork(write, socket);
-}
+// Fetches data for a User : user data + starred repos
+function* watchLoadUserPage() {
+    while(true) {
+        const {login, requiredFields = []} = yield take(actions.LOAD_USER_PAGE)
 
-function* flow() {
-    while (true) {
-        let { payload } = yield take(`${login}`);
-        const socket = yield call(connect);
-        socket.emit('login', { username: payload.username });
-
-        const task = yield fork(handleIO, socket);
-
-        let action = yield take(`${logout}`);
-        yield cancel(task);
-        socket.emit('logout');
+        yield fork(loadUser, login, requiredFields)
+        yield fork(loadStarred, login)
     }
 }
 
-export default function* rootSaga() {
-    yield fork(flow);
+// Fetches data for a Repo: repo data + repo stargazers
+function* watchLoadRepoPage() {
+    while(true) {
+        const {fullName, requiredFields = []} = yield take(actions.LOAD_REPO_PAGE)
+
+        yield fork(loadRepo, fullName, requiredFields)
+        yield fork(loadStargazers, fullName)
+    }
+}
+
+// Fetches more starred repos, use pagination data from getStarredByUser(login)
+function* watchLoadMoreStarred() {
+    while(true) {
+        const {login} = yield take(actions.LOAD_MORE_STARRED)
+        yield fork(loadStarred, login, true)
+    }
+}
+
+function* watchLoadMoreStargazers() {
+    while(true) {
+        const {fullName} = yield take(actions.LOAD_MORE_STARGAZERS)
+        yield fork(loadStargazers, fullName, true)
+    }
+}
+
+export default function* root() {
+    yield all([
+        fork(watchNavigate),
+        fork(watchLoadUserPage),
+        fork(watchLoadRepoPage),
+        fork(watchLoadMoreStarred),
+        fork(watchLoadMoreStargazers)
+    ])
 }
