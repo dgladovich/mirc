@@ -11,7 +11,7 @@ class ControllersList extends Component {
                     <Cell align={'middle'}></Cell>
                     <List>
                         {
-                            /*this.props.controllers.map((ctrl) => {
+                            this.props.controllers.map((ctrl) => {
                                 return (
                                     <Controller
                                         key={ctrl.id}
@@ -19,7 +19,7 @@ class ControllersList extends Component {
                                         controllerName={ctrl.name}
                                     />
                                 )
-                            })*/
+                            })
                         }
                     </List>
                 </Grid>

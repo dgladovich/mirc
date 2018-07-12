@@ -1,17 +1,27 @@
-import 'isomorphic-fetch'
-
+import 'isomorphic-fetch';
+import axios from 'axios';
 // api services
-export const fetchUser = ()=>{};
-export const fetchRepo = ()=>{};
-export const fetchStarred = ()=>{};
-export const fetchStargazers = ()=>{};
-export const fetchControllers = ()=>{};
-
+export const fetchUser = () => {
+};
+export const fetchRepo = () => {
+};
+export const fetchStarred = () => {
+};
+export const fetchStargazers = () => {
+};
+export const fetchControllers = (url) => {
+    return axios.get(url)
+        .then( response => {
+            return response
+            },
+            error => ({error: error.message || 'Something bad happened'})
+        )
+};
 
 
 /*
-import { Schema, arrayOf, normalize } from 'normalizr'DDD
-import { camelizeKeys } from 'humps'FDD
+import { Schema, arrayOf, normalize } from 'normalizr'
+import { camelizeKeys } from 'humps'
 
 import 'isomorphic-fetch'
 

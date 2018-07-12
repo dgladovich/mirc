@@ -11,8 +11,7 @@ export default function socketMiddleware(socket) {
          * type: always 'socket'
          * types: [REQUEST, SUCCESS, FAILURE]
          */
-        const { promise, type, types, ...rest } = action;
-
+        const {promise, type, types, ...rest} = action;
         if (type !== 'socket' || !promise) {
             // Move on! Not a socket request or a badly formed one.
             return next(action);
@@ -23,10 +22,10 @@ export default function socketMiddleware(socket) {
 
         return promise(socket)
             .then((result) => {
-                return next({...rest, result, type: SUCCESS });
+                return next({...rest, result, type: SUCCESS});
             })
             .catch((error) => {
-                return next({...rest, error, type: FAILURE });
+                return next({...rest, error, type: FAILURE});
             })
     };
 }

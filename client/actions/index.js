@@ -4,7 +4,7 @@ let nextMessageId = 0;
 let nextUserId = 0;
 const URL = 'http://localhost:5000/controllers';
 
-export const fetchControllers = ()=> (dispatch, getState) => {
+export const loadControllers = ()=> (dispatch, getState) => {
     return fetch(URL)
         .then((data)=>{
             console.log('fetched controllers list')

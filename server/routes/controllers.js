@@ -8,6 +8,8 @@ const controllers = [{id: 1, name: 'filter'}, {id: 2, name: 'noria'}, {id:3, nam
 */
 /* GET users listing. */
 router.get('/', function (req, res, next) {
+    console.log('router connected')
+
     Controller.findAll()
         .then(cs => {
             let controllers = cs.map(c => c.toJSON());

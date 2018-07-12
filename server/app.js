@@ -13,8 +13,9 @@ const history = require('connect-history-api-fallback');
 const ChatServer = require('./chat')(app);
 
 
+
 app.use(history());
-app.use(require('webpack-dev-middleware')(compiler, { publicPath: config.output.publicPath, historyApiFallback: true }));
+app.use(require('webpack-dev-middleware')(compiler, { publicPath: config.output.publicPath, /*historyApiFallback: true */}));
 app.use(require('webpack-hot-middleware')(compiler));
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,6 +23,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../build')));
 app.use('/', router);
+app.set('view engine', 'jade');
+app.set('views', __dirname + '/views');
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
