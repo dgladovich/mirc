@@ -30,15 +30,34 @@ module.exports = function ChatServer(app) {
         })
         client.on('messages:request', (params, cb) => {
             const {controllerId} = params;
-            Message.findAll({where: {ctrl: controllerId}, limit: 20})
+            Message
+                .findAll({
+                    where: {ctrl: +controllerId},
+                    order: [['id', 'DESC']],
+                    limit: 20})
                 .then((messages) => {
                     let msgs = messages.map(message => message.toJSON());
                     cb(msgs);
-                });
+                })
+                .catch(e => console.error(e));
         })
         client.on('messages:add', (message) => {
-            let mess = Object.assign({}, message, {createdAt: moment().format('YYYY-MM-DDTHH:mm:ss'), updatedAt: moment().format('YYYY-MM-DDTHH:mm:ss')});
-            io.emit('messages:add', mess)
+            let {ctrl} = message;
+            let mess = Object.assign({}, message, {
+                createdAt: moment().format('YYYY-MM-DDTHH:mm:ss'),
+                updatedAt: moment().format('YYYY-MM-DDTHH:mm:ss')
+            });
+            Message
+                .create(message)
+                .then(message => {
+                    let m = message.toJSON();
+                    io.emit(`messages:add:${ctrl}`, m)
+
+
+                })
+                .catch(e => {
+                    console.error(e)
+                });
         })
     });
 }

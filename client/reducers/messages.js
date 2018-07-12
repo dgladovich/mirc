@@ -1,4 +1,9 @@
-import {REQUEST_MESSAGES, REQUEST_MESSAGES_FAILURE, REQUEST_MESSAGES_SUCCESS} from '../constants/ActionTypes';
+import {
+    ADD_MESSAGE,
+    REQUEST_MESSAGES,
+    REQUEST_MESSAGES_FAILURE,
+    REQUEST_MESSAGES_SUCCESS
+} from '../constants/ActionTypes';
 
 function messagesReducer(state = {items: []}, action) {
     switch (action.type) {
@@ -6,6 +11,9 @@ function messagesReducer(state = {items: []}, action) {
             return Object.assign({}, state);
         case REQUEST_MESSAGES_SUCCESS:
             return Object.assign({}, state, {items: action.result});
+        case ADD_MESSAGE:
+            let newState = Object.assign({}, state, {items: state.items.concat(action.message)});
+            return newState;
         case REQUEST_MESSAGES_FAILURE:
             return Object.assign({}, state, {items: action.messages});
 
